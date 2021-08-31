@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 
 import com.sbs.java.crud.dto.Article;
+import com.sbs.java.crud.dto.Member;
 import com.sbs.java.crud.util.Util;
 
 public class App {
@@ -17,25 +18,39 @@ public class App {
 		public void run() {
 		
 			System.out.println("== 프로그램 시작 ==");
+			System.out.printf("명령어 : ");
 			Scanner sc = new Scanner(System.in);
 			int lastArticleId = 0;
 	
 			List<Article> articles = new ArrayList<>();
+			List<Member> members = new ArrayList<>();
 	
 			while (true) {
 	
 				String command = sc.nextLine().trim();
-	//			System.out.println(command);
 	
 				if (command.length() == 0) {
 					continue;
 				}
-	
 				if (command.equals("system exit")) {
 					break;
 				}
-	
-				if (command.equals("write")) {
+				
+				if (command.equals("join")) {
+					int id = members.size() + 1;
+					System.out.printf("ID : ");
+					String logInId = sc.nextLine();
+					System.out.printf("PW : ");
+					String logInPw = sc.nextLine();
+					System.out.printf("이름 : ");
+					String name = sc.nextLine();
+					
+					Member member = new Member (id, logInId, logInPw, name);
+					members.add(member);
+					
+					System.out.printf("%d번 회원이 생성되었습니다.", id);
+				} else if (command.equals("write")) {
+					
 					int id = ++lastArticleId;
 					lastArticleId = id;
 					System.out.print("제목 : ");
@@ -47,6 +62,7 @@ public class App {
 					articles.add(article);
 	
 					System.out.printf("%d번째 글이 생성되었습니다.\n", id);
+				
 				} else if (command.startsWith("list")) {
 	
 					if (articles.size() == 0) {
