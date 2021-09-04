@@ -38,17 +38,51 @@ public class App {
 				
 				if (command.equals("join")) {
 					int id = members.size() + 1;
-					System.out.printf("ID : ");
-					String logInId = sc.nextLine();
-					System.out.printf("PW : ");
-					String logInPw = sc.nextLine();
+					int overlap = 0;
+					String logInId = null;
+					
+					while(true) {
+						
+						System.out.printf("ID : ");
+						String inputId = sc.nextLine();
+
+						for ( Member member : members) {
+							
+							if (member.logInId.equals(inputId)) {
+								System.out.println("동일한 아이디가 있습니다. 다시 입력해주세요.");
+								overlap = 1;
+							}
+						}
+						if (overlap == 1) {
+							overlap = 0;
+							continue;
+						}
+						logInId = inputId;
+						break;
+					}
+					String logInPw = null;
+					
+					while(true) {
+						System.out.printf("PW : ");
+						String inputPw = sc.nextLine();
+						
+						System.out.printf("PW 확인 : ");
+						String inputPw2 = sc.nextLine();
+						if (inputPw2.equals(inputPw) == false) {
+								System.out.println("비밀번호를 다르게 입력했습니다. 다시 입력해주세요.");
+								continue;
+						}
+						logInPw = inputPw;
+						break;
+					}
+					
 					System.out.printf("이름 : ");
 					String name = sc.nextLine();
 					
 					Member member = new Member (id, logInId, logInPw, name);
 					members.add(member);
 					
-					System.out.printf("%d번 회원이 생성되었습니다.", id);
+					System.out.printf("%d번 회원이 생성되었습니다.\n", id);
 				} else if (command.equals("write")) {
 					
 					int id = ++lastArticleId;
